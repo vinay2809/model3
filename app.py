@@ -1,24 +1,13 @@
-from flask import Flask, render_template, request
-import os
+import streamlit as st
+import joblib  # or pickle, if your model is stored that way
 
-app = Flask(__name__)
-UPLOAD_FOLDER = 'uploads'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+# Load your model
+model = joblib.load("your_model.pkl")
 
-# Ensure the upload directory exists
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+st.title("Prediction App")
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    if request.method == 'POST':
-        image = request.files['image']
-        if image:
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], image.filename)
-            image.save(filepath)
-            # Dummy analysis (pretend to analyze image)
-            result = "No forgery detected"
-            return render_template('index.html', result=result, image_name=image.filename)
-    return render_template('index.html', result=None)
+user_input = st.text_input("Enter input:")
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if st.button("Predict"):
+    result = model.predict([user_input])
+    st.success(f"Prediction: {result[0]}")
