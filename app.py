@@ -2,7 +2,7 @@ import streamlit as st
 import joblib  # or pickle, if your model is stored that way
 
 # Load your model
-model = joblib.load("your_model.pkl")
+model = joblib.load("model.pkl")
 
 st.title("Prediction App")
 
