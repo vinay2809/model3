@@ -1,13 +1,23 @@
 import streamlit as st
-import joblib  # or pickle, if your model is stored that way
+from PIL import Image
+import numpy as np
 
-# Load your model
-model = joblib.load("model.pkl")
+st.set_page_config(page_title="Image Forgery Detection")
 
-st.title("Prediction App")
+st.title("🔍 Image Forgery Detection (Demo)")
 
-user_input = st.text_input("Enter input:")
+uploaded_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
 
-if st.button("Predict"):
-    result = model.predict([user_input])
-    st.success(f"Prediction: {result[0]}")
+if uploaded_file is not None:
+    image = Image.open(uploaded_file)
+    st.image(image, caption="Uploaded Image", use_column_width=True)
+
+    # Simulate detection (placeholder logic)
+    st.write("Running forgery detection...")
+    
+    # Placeholder logic
+    st.warning("⚠️ This is a demo. No real detection is done.")
+    st.success("Prediction: Image is likely Authentic (placeholder)")
+
+    # Example extension: show image array
+    # st.write(np.array(image))
